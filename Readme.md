@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Максим Ткачук](https://up.htmlacademy.ru/javascript/26/user/1702543).
-* Наставник: `Неизвестно`.
+* Наставник: [Rail Sakhaviev](https://htmlacademy.ru/profile/id1331891).
 
 ---
 
