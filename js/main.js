@@ -1,5 +1,3 @@
-// Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно
-
 function getRandomFloatPoint (a, b, digits) {
   const lower = Math.min(Math.abs(a), Math.abs(b));
   const upper = Math.max(Math.abs(a), Math.abs(b));
@@ -10,8 +8,6 @@ function getRandomFloatPoint (a, b, digits) {
 
 getRandomFloatPoint(2, 4, 3);
 
-// Генерация данных
-
 function getRandomNumber (a, b) {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
@@ -19,9 +15,7 @@ function getRandomNumber (a, b) {
   return Math.floor(Math.random() * (upper - lower + 1)) + lower;
 }
 
-// author, объект — описывает автора
-
-const NUMBER_AVATAR = [
+const NUMBER_AVATARS = [
   '01',
   '02',
   '03',
@@ -34,9 +28,7 @@ const NUMBER_AVATAR = [
   '10',
 ];
 
-// offer, объект — содержит информацию об объявлении
-
-const OFFER_TITLE = [
+const OFFER_TITLES = [
   'Лайтхаус',
   'Ривьера',
   'Экспотель',
@@ -44,18 +36,18 @@ const OFFER_TITLE = [
   'AvHouse',
 ];
 
-const OFFER_ADDRESS = {
+const OFFER_ADDRESSES = {
   longitude: {min: 35.65, max: 35.7},
   latitude: {min: 139.7, max: 139.8},
   digits: 5,
 };
 
-const OFFER_PRICE = {
-  min: 2,
-  max: 15,
-};
+const OFFER_PRICES = [
+  2,
+  15
+];
 
-const OFFER_TYPE = [
+const OFFER_TYPES = [
   'palace',
   'flat',
   'house',
@@ -63,23 +55,23 @@ const OFFER_TYPE = [
   'hotel',
 ];
 
-const OFFER_ROOMS = {
-  min: 1,
-  max: 5,
-};
+const OFFER_ROOMS = [
+  1,
+  5,
+];
 
-const OFFER_GUESTS = {
-  min: 2,
-  max: 12,
-};
+const OFFER_GUESTS = [
+  2,
+  12,
+];
 
-const OFFER_CHECKIN = [
+const OFFER_CHECKINS = [
   '12:00',
   '13:00',
   '14:00',
 ];
 
-const OFFER_CHECKOUT = [
+const OFFER_CHECKOUTS = [
   '12:00',
   '13:00',
   '14:00',
@@ -94,7 +86,7 @@ const OFFER_FEATURES = [
   'conditioner',
 ];
 
-const OFFER_DESCRIPTION = [
+const OFFER_DESCRIPTIONS = [
   'дизайн выполнен в скандинавском стиле',
   'молодёжный отель в центре города',
   'семейный отель',
@@ -107,9 +99,7 @@ const OFFER_PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-// Функция вывода массива случайной длины из значений
-
-function getArray(selectedArray) {
+function getShuffledArray(selectedArray) {
   const maxLength = selectedArray.length;
   const lengthOfArray = getRandomNumber(1, maxLength);
   const array = [];
@@ -125,34 +115,34 @@ function getArray(selectedArray) {
   return array;
 }
 
-const getRandomElement = (element) => element[getRandomNumber(0, element.length - 1)];
+const getRandomArrayElement = (arr) => arr[getRandomNumber(0, arr.length - 1)];
 
-const getRandomArray = (array) => getRandomNumber(array.min, array.max);
+const getRandomNumberOfRange = (arr) => getRandomNumber(arr[0], arr[1]);
 
 const DATA_COUNT = 10;
 
-const createObject = () => {
-  const randomPrice = `${getRandomArray(OFFER_PRICE)}000`;
-  const randomLongitude = getRandomFloatPoint(OFFER_ADDRESS.longitude.min, OFFER_ADDRESS.longitude.max, OFFER_ADDRESS.digits);
-  const randomLatitude = getRandomFloatPoint(OFFER_ADDRESS.latitude.min, OFFER_ADDRESS.latitude.max, OFFER_ADDRESS.digits);
+const createOffer = () => {
+  const randomPrice = `${getRandomNumber(OFFER_PRICES[0], OFFER_PRICES[1])}000`;
+  const randomLongitude = getRandomFloatPoint(OFFER_ADDRESSES.longitude.min, OFFER_ADDRESSES.longitude.max, OFFER_ADDRESSES.digits);
+  const randomLatitude = getRandomFloatPoint(OFFER_ADDRESSES.latitude.min, OFFER_ADDRESSES.latitude.max, OFFER_ADDRESSES.digits);
 
   return {
     author: {
-      avatar: `img/avatars/user ${NUMBER_AVATAR[getRandomNumber(0, NUMBER_AVATAR.length - 1)]}.png`,
+      avatar: `img/avatars/user ${NUMBER_AVATARS[getRandomNumber(0, NUMBER_AVATARS.length - 1)]}.png`,
     },
 
     offer: {
-      title: getRandomElement(OFFER_TITLE),
+      title: getRandomArrayElement(OFFER_TITLES),
       location : `${randomLatitude}, ${randomLongitude}`,
       price: randomPrice,
-      type: getRandomElement(OFFER_TYPE),
-      rooms: getRandomArray(OFFER_ROOMS),
-      guests: getRandomArray(OFFER_GUESTS),
-      checkin: getRandomElement(OFFER_CHECKIN),
-      checkout: getRandomElement(OFFER_CHECKOUT),
-      features: getArray(OFFER_FEATURES),
-      description: getRandomElement(OFFER_DESCRIPTION),
-      photos: getArray(OFFER_PHOTOS),
+      type: getRandomArrayElement(OFFER_TYPES),
+      rooms: getRandomNumberOfRange(OFFER_ROOMS),
+      guests: getRandomNumberOfRange(OFFER_GUESTS),
+      checkin: getRandomArrayElement(OFFER_CHECKINS),
+      checkout: getRandomArrayElement(OFFER_CHECKOUTS),
+      features: getShuffledArray(OFFER_FEATURES),
+      description: getRandomArrayElement(OFFER_DESCRIPTIONS),
+      photos: getShuffledArray(OFFER_PHOTOS),
     },
 
     location: {
@@ -164,5 +154,5 @@ const createObject = () => {
   };
 };
 
-const similarData = Array.from({length: DATA_COUNT}, createObject);
-export {similarData};
+const offers = Array.from({length: DATA_COUNT}, createOffer);
+export {offers};
