@@ -1,5 +1,5 @@
 import { getRandomArrayElement } from './util.js';
-import { OFFER_PHOTOS } from './data.js';
+import { OFFER_PHOTOS, OFFER_FEATURES } from './data.js';
 
 const OFFER_TYPES_RUS = {
   flat: 'Квартира',
@@ -64,10 +64,16 @@ const createSimilarElement = (data) => {
     filterElement.querySelector('.popup__text--time').remove();
   }
 
-  if (data.offer.features) {
-    filterElement.querySelector('.popup__features').textContent = data.offer.features;
-  } else {
+  if (OFFER_FEATURES.length === 0) {
     filterElement.querySelector('.popup__features').remove();
+  } else {
+    const features = data.offer.features;
+    const popupFeatures = filterElement.querySelector('.popup__features');
+    popupFeatures.replaceChildren();
+    for (let i = 0; i < features.length; i++) {
+      const one = document.createElement('li');
+      popupFeatures.appendChild(one).classList.add('popup__feature', `popup__feature--${features[i]}`);
+    }
   }
 
   if (data.offer.description) {

@@ -37,7 +37,9 @@ const latitude = {
   max: 139.8
 };
 
-const digits = [ 5 ];
+const digits = [
+  5,
+];
 
 const OFFER_PRICES = [
   2,
@@ -129,4 +131,4 @@ const createOffer = () => {
 
 const DATA_COUNT = 10;
 const offers = () => Array.from({length: DATA_COUNT}, createOffer);
-export {offers, OFFER_PHOTOS};
+export {offers, OFFER_PHOTOS, OFFER_FEATURES};
