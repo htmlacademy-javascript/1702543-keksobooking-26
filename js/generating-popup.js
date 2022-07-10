@@ -68,11 +68,11 @@ const createSimilarElement = (data) => {
     filterElement.querySelector('.popup__features').remove();
   } else {
     const features = data.offer.features;
-    const popupFeatures = filterElement.querySelector('.popup__features');
-    popupFeatures.replaceChildren();
+    const featuresElement = filterElement.querySelector('.popup__features');
+    featuresElement.replaceChildren();
     for (let i = 0; i < features.length; i++) {
-      const one = document.createElement('li');
-      popupFeatures.appendChild(one).classList.add('popup__feature', `popup__feature--${features[i]}`);
+      const li = document.createElement('li');
+      featuresElement.appendChild(li).classList.add('popup__feature', `popup__feature--${features[i]}`);
     }
   }
 
