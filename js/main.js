@@ -1,5 +1,6 @@
 import { offers } from './data.js';
 import { createSimilarElement } from './generating-popup.js';
+import './form-validation.js';
 
 const card = offers();
 const map = document.querySelector('.map__canvas');

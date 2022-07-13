@@ -9,10 +9,10 @@ const OFFER_TYPES_RUS = {
   hotel: 'Отель'
 };
 
-const similarOffersTemplate = document.querySelector('#card').content.querySelector('.popup');
+const offerTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const createSimilarElement = (data) => {
-  const filterElement = similarOffersTemplate.cloneNode(true);
+  const filterElement = offerTemplate.cloneNode(true);
 
   const arrayTypes = Object.values(OFFER_TYPES_RUS);
   if (arrayTypes) {
@@ -47,7 +47,7 @@ const createSimilarElement = (data) => {
   }
 
   if (data.offer.price) {
-    filterElement.querySelector('.popup__text--price').textContent = `${data.offer.price} ₽/ночь`;
+    filterElement.querySelector('.popup__text--price').innerHTML = `${data.offer.price} <span>₽/ночь</span>`;
   } else {
     filterElement.querySelector('.popup__text--price').remove();
   }
