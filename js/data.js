@@ -28,13 +28,13 @@ const OFFER_TITLES = [
 ];
 
 const longitude = {
-  min: 35.65,
-  max: 35.7
+  min: 139.7,
+  max: 139.8,
 };
 
 const latitude = {
-  min: 139.7,
-  max: 139.8
+  min: 35.65,
+  max: 35.7,
 };
 
 const digits = [
@@ -90,6 +90,7 @@ const OFFER_DESCRIPTIONS = [
   'молодёжный отель в центре города',
   'семейный отель',
   'для любителей активного отдыха',
+  'лучшее место для спокойного отдыха в Токио',
 ];
 
 const OFFER_PHOTOS = [

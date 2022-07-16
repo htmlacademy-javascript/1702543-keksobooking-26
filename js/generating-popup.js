@@ -1,5 +1,5 @@
 import { getRandomArrayElement } from './util.js';
-import { OFFER_PHOTOS, OFFER_FEATURES } from './data.js';
+import { offers, OFFER_PHOTOS, OFFER_FEATURES } from './data.js';
 
 const OFFER_TYPES_RUS = {
   flat: 'Квартира',
@@ -91,4 +91,10 @@ const createSimilarElement = (data) => {
   return filterElement;
 };
 
-export {createSimilarElement};
+const dataset = offers();
+
+
+export {
+  dataset,
+  createSimilarElement
+};
