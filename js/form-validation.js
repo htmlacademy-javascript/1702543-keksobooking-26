@@ -21,7 +21,8 @@ const TYPE_MIN_PRICES = {
   'palace': 10000,
 };
 
-const getPriceValidate = (value) => value >= TYPE_MIN_PRICES[typeElement.value];
+const getMinPriceValidate = (value) => value >= TYPE_MIN_PRICES[typeElement.value];
+const getMaxPriceValidate = () => priceElement.value <= 100000;
 
 const getPriceErrorMessage = () => {
   if (typeElement.value === 'bungalow') {
@@ -50,7 +51,8 @@ const getMinPlaceholder = () => {
 };
 
 typeElement.addEventListener('change', getMinPlaceholder);
-pristine.addValidator(priceElement, getPriceValidate, getPriceErrorMessage);
+pristine.addValidator(priceElement, getMinPriceValidate, getPriceErrorMessage);
+pristine.addValidator(priceElement, getMaxPriceValidate, 'стоимость не более 100000 руб');
 
 // Слайдер для цены
 const sliderElement = formElement.querySelector('.ad-form__slider');
