@@ -1,42 +1,14 @@
-import {
-  getDisabled,
-  mapFormElement,
-  fieldsetElement,
-  mapFiltersElement
-} from './form-disabled.js';
+import { createPopup } from './popup.js';
 
-import {
-  dataset,
-  createSimilarElement
-} from './generating-popup.js';
+const addressElement = document.querySelector('[name="address"]');
+addressElement.setAttribute('readOnly', 'true');
+const ZOOM_LEVEL = 12;
+const mapCenter = {
+  lat: 35.68260,
+  lng: 139.75305,
+};
 
-import {
-  formElement,
-  sliderElement
-} from './form-validation.js';
-
-
-const START_LATITUDE = 35.68260;
-const START_LONGITUDE = 139.75305;
-
-const map = L.map('map-canvas').on('load', () => {
-  formElement.classList.remove('ad-form--disabled');
-  mapFiltersElement.classList.remove('ad-form--disabled');
-  sliderElement.removeAttribute('disabled');
-  getDisabled(mapFormElement, '');
-  getDisabled(fieldsetElement, '');
-})
-  .setView({
-    lat: START_LATITUDE,
-    lng: START_LONGITUDE,
-  }, 12);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+let map = null;
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -46,8 +18,8 @@ const mainPinIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: START_LATITUDE,
-    lng: START_LONGITUDE,
+    lat: mapCenter.lat,
+    lng: mapCenter.lng,
   },
   {
     draggable: true,
@@ -55,14 +27,11 @@ const mainMarker = L.marker(
   },
 );
 
-mainMarker.addTo(map);
-
-const addressElement = document.querySelector('[name="address"]');
-addressElement.value = `${START_LATITUDE}, ${START_LONGITUDE}`;
-addressElement.setAttribute('readOnly', '');
-
+const setAddressValue = (value) => {
+  addressElement.value = value;
+};
 mainMarker.on('drag', (evt) => {
-  addressElement.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
+  setAddressValue(`${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`);
 });
 
 const ordinaryPinIcon = L.icon({
@@ -71,19 +40,57 @@ const ordinaryPinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-dataset.forEach((element) => {
-  const {location} = element;
-  const ordinaryMarker = L.marker(
-    {
-      lat: location.lat,
-      lng: location.lng,
-    },
-    {
-      icon: ordinaryPinIcon,
-    },
-  );
-  ordinaryMarker
-    .addTo(map)
-    .bindPopup(createSimilarElement(element));
-});
+const renderMarkers = (offers) => {
+  offers.forEach((offer) => {
+    const {location} = offer;
+    const ordinaryMarker = L.marker(
+      {
+        lat: location.lat,
+        lng: location.lng,
+      },
+      {
+        icon: ordinaryPinIcon,
+      },
+    );
+    ordinaryMarker
+      .addTo(map)
+      .bindPopup(createPopup(offer));
+  });
+};
 
+const initMap = (onLoad) => {
+  map = L.map('map-canvas').on('load', onLoad)
+    .setView({
+      lat: mapCenter.lat,
+      lng: mapCenter.lng,
+    }, ZOOM_LEVEL);
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+
+  setAddressValue(`${mapCenter.lat}, ${mapCenter.lng}`);
+
+  mainMarker.addTo(map);
+};
+
+const mapReset = () => {
+  map.closePopup();
+  map.setView({
+    lat: mapCenter.lat,
+    lng: mapCenter.lng,
+  }, ZOOM_LEVEL);
+  addressElement.value = `${mapCenter.lat.toFixed(5)}, ${mapCenter.lng.toFixed(5)}`;
+  mainMarker.setLatLng({
+    lat: mapCenter.lat,
+    lng: mapCenter.lng});
+};
+
+export {
+  initMap,
+  renderMarkers,
+  mapReset
+};

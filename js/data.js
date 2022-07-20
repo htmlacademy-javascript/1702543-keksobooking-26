@@ -3,7 +3,6 @@ import {
   getRandomNumber,
   getShuffledArray,
   getRandomArrayElement,
-  getRandomNumberOfRange
 } from './util.js';
 
 const NUMBER_AVATARS = [
@@ -27,41 +26,12 @@ const OFFER_TITLES = [
   'AvHouse',
 ];
 
-const longitude = {
-  min: 139.7,
-  max: 139.8,
-};
-
-const latitude = {
-  min: 35.65,
-  max: 35.7,
-};
-
-const digits = [
-  5,
-];
-
-const OFFER_PRICES = [
-  2,
-  15
-];
-
 const OFFER_TYPES = [
   'palace',
   'flat',
   'house',
   'bungalow',
   'hotel',
-];
-
-const OFFER_AMOUNT_ROOMS = [
-  2,
-  4,
-];
-
-const OFFER_GUESTS = [
-  2,
-  12,
 ];
 
 const OFFER_CHECKINS = [
@@ -100,9 +70,9 @@ const OFFER_PHOTOS = [
 ];
 
 const createOffer = () => {
-  const randomPrice = `${getRandomNumber(OFFER_PRICES[0], OFFER_PRICES[1])}000`;
-  const randomLongitude = getRandomFloatPoint(longitude.min, longitude.max, digits);
-  const randomLatitude = getRandomFloatPoint(latitude.min, latitude.max, digits);
+  const randomPrice = `${getRandomNumber(2, 5)}000`;
+  const longitude = getRandomFloatPoint(139.7, 139.8, 5);
+  const latitude = getRandomFloatPoint(35.65, 35.7, 5);
 
   return {
     author: {
@@ -111,11 +81,11 @@ const createOffer = () => {
 
     offer: {
       title: getRandomArrayElement(OFFER_TITLES),
-      address: `${randomLatitude}, ${randomLongitude}`,
+      address: `${latitude}, ${longitude}`,
       price: randomPrice,
       type: getRandomArrayElement(OFFER_TYPES),
-      rooms: getRandomNumberOfRange(OFFER_AMOUNT_ROOMS),
-      guests: getRandomNumberOfRange(OFFER_GUESTS),
+      rooms: getRandomNumber(2, 5),
+      guests: getRandomNumber(2, 5),
       checkin: getRandomArrayElement(OFFER_CHECKINS),
       checkout: getRandomArrayElement(OFFER_CHECKOUTS),
       features: getShuffledArray(OFFER_FEATURES),
@@ -124,12 +94,10 @@ const createOffer = () => {
     },
 
     location: {
-      lat: randomLatitude,
-      lng: randomLongitude,
+      lat: latitude,
+      lng: longitude,
     }
   };
 };
 
-const DATA_COUNT = 10;
-const offers = () => Array.from({length: DATA_COUNT}, createOffer);
-export {offers, OFFER_PHOTOS, OFFER_FEATURES};
+createOffer();
