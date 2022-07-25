@@ -1,11 +1,9 @@
-import { getRandomArrayElement } from './util.js';
-
 const OFFER_TYPES_RUS = {
-  flat: 'Квартира',
   bungalow: 'Бунгало',
+  flat: 'Квартира',
+  hotel: 'Отель',
   house: 'Дом',
   palace: 'Дворец',
-  hotel: 'Отель'
 };
 
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -13,9 +11,8 @@ const popupTemplate = document.querySelector('#card').content.querySelector('.po
 const createPopup = (data) => {
   const popup = popupTemplate.cloneNode(true);
 
-  const arrayTypes = Object.values(OFFER_TYPES_RUS);
-  if (arrayTypes) {
-    popup.querySelector('.popup__type').textContent = getRandomArrayElement(arrayTypes);
+  if (data.offer.type) {
+    popup.querySelector('.popup__type').textContent = OFFER_TYPES_RUS[data.offer.type];
   } else {
     popup.querySelector('.popup__type').remove();
   }

@@ -34,8 +34,9 @@ const initSlider = () => {
   disableSlider();
 };
 
+initSlider();
+
 export {
-  initSlider,
   enableSlider,
   disableSlider,
   sliderElement

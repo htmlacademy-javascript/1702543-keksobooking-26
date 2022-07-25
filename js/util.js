@@ -50,6 +50,10 @@ const showWarning = (message) => {
 
   alertContainer.append(messageText);
   document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, 5000);
 };
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -88,6 +92,15 @@ const initError = () => {
   });
 };
 
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 export {
   getRandomFloatPoint,
   getRandomNumber,
@@ -95,5 +108,6 @@ export {
   getRandomArrayElement,
   showWarning,
   initSuccess,
-  initError
+  initError,
+  debounce
 };
