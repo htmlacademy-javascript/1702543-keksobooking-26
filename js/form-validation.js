@@ -78,6 +78,7 @@ const formReset = () => {
   formElement.reset();
   formMap.reset();
   mapReset();
+  sliderElement.noUiSlider.reset();
 };
 
 const initValidation = (onSuccess, onError) => {
@@ -145,5 +146,4 @@ const initValidation = (onSuccess, onError) => {
     pristine.validate(priceElement);
   });
 };
-
 export { initValidation, formReset };
