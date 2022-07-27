@@ -1,6 +1,7 @@
 import { sliderElement  } from './form-slider.js';
 import { sendData } from './api.js';
 import { mapReset } from './map.js';
+import { previewReset } from './avatar.js';
 
 const formElement = document.querySelector('.ad-form');
 const typeElement = formElement.querySelector('[name="type"]');
@@ -79,6 +80,7 @@ const formReset = () => {
   formMap.reset();
   mapReset();
   sliderElement.noUiSlider.reset();
+  previewReset();
 };
 
 const initValidation = (onSuccess, onError) => {

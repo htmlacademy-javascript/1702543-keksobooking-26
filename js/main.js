@@ -9,6 +9,7 @@ import { disableMapFilters } from './form.js';
 import { similarMarkers } from './map.js';
 import { getData } from './api.js';
 import { filterChange } from './filter.js';
+import './avatar.js';
 
 getData(
   (data) =>{

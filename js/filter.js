@@ -15,11 +15,11 @@ const PRICE_VALUE = {
   high: 50000,
 };
 
-const getFilterType = (data) => typeFilter.value === DEFAULT_VALUE || data.offer.type === typeFilter.value;
-const getFilterRooms = (data) => roomsFilter.value === DEFAULT_VALUE || data.offer.rooms === Number(roomsFilter.value);
-const getFilterGuests = (data) => guestsFilter.value === DEFAULT_VALUE || data.offer.guests === Number(guestsFilter.value);
+const filterType = (data) => typeFilter.value === DEFAULT_VALUE || data.offer.type === typeFilter.value;
+const filterRooms = (data) => roomsFilter.value === DEFAULT_VALUE || data.offer.rooms === Number(roomsFilter.value);
+const filterGuests = (data) => guestsFilter.value === DEFAULT_VALUE || data.offer.guests === Number(guestsFilter.value);
 
-const getFilterPrice = (data) => {
+const filterPrice = (data) => {
   if (priceFilter.value === 'low') {
     return data.offer.price < PRICE_VALUE.low;
   }
@@ -34,7 +34,7 @@ const getFilterPrice = (data) => {
   }
 };
 
-const getFilterFeatures = (data) => {
+const filterFeatures = (data) => {
   const checkedFeatures = Array.from(featuresFilter.querySelectorAll('input[type="checkbox"]:checked'));
 
   if(data.offer.features !== undefined) {
@@ -49,11 +49,11 @@ const getFilterAll = (dataset) => {
   markerGroup.clearLayers();
 
   return dataset.filter((data) => (
-    getFilterType(data) &&
-    getFilterRooms(data) &&
-    getFilterGuests(data) &&
-    getFilterPrice(data) &&
-    getFilterFeatures(data)
+    filterType(data) &&
+    filterRooms(data) &&
+    filterGuests(data) &&
+    filterPrice(data) &&
+    filterFeatures(data)
   )).slice(0, OFFERS_COUNT);
 };
 
