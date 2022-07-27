@@ -23,6 +23,7 @@ const enableMapFilters = () => {
   mapFormElement.forEach((element) => element.removeAttribute('disabled'));
 };
 
+disableForm();
 
 export {
   disableForm,

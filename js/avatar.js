@@ -1,19 +1,19 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-const selectAvatarFile = document.querySelector('.ad-form-header__input');
-const previewAvatar = document.querySelector('.ad-form-header__preview img');
-const resetAvatar = previewAvatar.src;
-const selectHousingFile = document.querySelector('.ad-form__input');
-const previewHousing = document.querySelector('.ad-form__photo');
+const avatarPhotoSelect = document.querySelector('.ad-form-header__input');
+const avatarPreview = document.querySelector('.ad-form-header__preview img');
+const resetAvatar = avatarPreview.src;
+const housePhotoSelect = document.querySelector('.ad-form__input');
+const housePreview = document.querySelector('.ad-form__photo');
 
-selectAvatarFile.addEventListener('change', () => {
-  const file = selectAvatarFile.files[0];
+avatarPhotoSelect.addEventListener('change', () => {
+  const file = avatarPhotoSelect.files[0];
   const fileName = file.name.toLowerCase();
 
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  const matches = FILE_TYPES.some((fileType) => fileName.endsWith(fileType));
 
   if (matches) {
-    previewAvatar.src = URL.createObjectURL(file);
+    avatarPreview.src = URL.createObjectURL(file);
   }
 });
 
@@ -23,24 +23,24 @@ const createImg = (pathToPhoto) => {
   img.style = 'width: 60px; height: 60px; object-fit: cover';
   img.src = pathToPhoto;
 
-  previewHousing.appendChild(img);
+  housePreview.appendChild(img);
 };
 
-selectHousingFile.addEventListener('change', () => {
-  const file = selectHousingFile.files[0];
+housePhotoSelect.addEventListener('change', () => {
+  const file = housePhotoSelect.files[0];
   const fileName = file.name.toLowerCase();
 
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  const matches = FILE_TYPES.some((fileType) => fileName.endsWith(fileType));
 
   if (matches) {
-    previewHousing.innerHTML = '';
+    housePreview.innerHTML = '';
     createImg(URL.createObjectURL(file));
   }
 });
 
-const previewReset = () => {
-  previewAvatar.src = resetAvatar;
-  previewHousing.innerHTML = '';
+const resetPreview = () => {
+  avatarPreview.src = resetAvatar;
+  housePreview.innerHTML = '';
 };
 
-export { previewReset };
+export { resetPreview };
