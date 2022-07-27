@@ -1,18 +1,7 @@
 import { sliderElement  } from './form-slider.js';
 import { sendData } from './api.js';
-import { mapReset } from './map.js';
-import { previewReset } from './avatar.js';
-
-const formElement = document.querySelector('.ad-form');
-const typeElement = formElement.querySelector('[name="type"]');
-const priceElement = formElement.querySelector('[name="price"]');
-const roomsElement = formElement.querySelector('[name="rooms"]');
-const capacityElement = formElement.querySelector('[name="capacity"]');
-const timeInElement = formElement.querySelector('[name="timein"]');
-const timeOutElement = formElement.querySelector('[name="timeout"]');
-const submitButton = formElement.querySelector('.ad-form__submit');
-const resetForms = formElement.querySelector('.ad-form__reset');
-const formMap = document.querySelector('.map__filters');
+import { resetMap } from './map.js';
+import { resetPreview } from './avatar.js';
 
 const TYPE_MIN_PRICES = {
   'bungalow': 0,
@@ -28,6 +17,17 @@ const MAX_GUESTS = {
   '3': ['1', '2', '3'],
   '100': ['0']
 };
+
+const formElement = document.querySelector('.ad-form');
+const typeElement = formElement.querySelector('[name="type"]');
+const priceElement = formElement.querySelector('[name="price"]');
+const roomsElement = formElement.querySelector('[name="rooms"]');
+const capacityElement = formElement.querySelector('[name="capacity"]');
+const timeInElement = formElement.querySelector('[name="timein"]');
+const timeOutElement = formElement.querySelector('[name="timeout"]');
+const submitButton = formElement.querySelector('.ad-form__submit');
+const resetForms = formElement.querySelector('.ad-form__reset');
+const formMap = document.querySelector('.map__filters');
 
 priceElement.placeholder = 1000;
 
@@ -78,9 +78,9 @@ const unblockSubmitButton = () => {
 const formReset = () => {
   formElement.reset();
   formMap.reset();
-  mapReset();
+  resetMap();
   sliderElement.noUiSlider.reset();
-  previewReset();
+  resetPreview();
 };
 
 const initValidation = (onSuccess, onError) => {
@@ -148,4 +148,5 @@ const initValidation = (onSuccess, onError) => {
     pristine.validate(priceElement);
   });
 };
+
 export { initValidation, formReset };

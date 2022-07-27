@@ -4,15 +4,16 @@ import {
   enableMapFilters
 } from './form.js';
 import { enableSlider } from './form-slider.js';
-import { getFilterAll } from './filter.js';
+import { filterOffers } from './filter.js';
 
-const addressElement = document.querySelector('[name="address"]');
-addressElement.setAttribute('readOnly', 'true');
 const ZOOM_LEVEL = 12;
 const mapCenter = {
   lat: 35.68260,
   lng: 139.75305,
 };
+
+const addressElement = document.querySelector('[name="address"]');
+addressElement.setAttribute('readOnly', 'true');
 
 const map = L.map('map-canvas').on('load', () => {
   enableSlider();
@@ -67,7 +68,7 @@ const ordinaryPinIcon = L.icon({
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const renderMarkers = (offer) => {
+const renderMarker = (offer) => {
   const {location} = offer;
   const ordinaryMarker = L.marker(
     {
@@ -83,15 +84,11 @@ const renderMarkers = (offer) => {
     .bindPopup(createPopup(offer));
 };
 
-const similarMarkers = (offers) => {
-  const similarOffers = getFilterAll(offers.slice());
-
-  similarOffers.forEach((offer) => {
-    renderMarkers(offer);
-  });
+const renderMarkers = (offers) => {
+  filterOffers(offers.slice()).forEach(renderMarker);
 };
 
-const mapReset = () => {
+const resetMap = () => {
   map.closePopup();
   markerGroup.clearLayers();
   map.setView({
@@ -105,7 +102,7 @@ const mapReset = () => {
 };
 
 export {
-  similarMarkers,
-  mapReset,
+  renderMarkers,
+  resetMap,
   markerGroup
 };

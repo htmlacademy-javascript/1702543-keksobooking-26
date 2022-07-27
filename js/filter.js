@@ -1,12 +1,5 @@
 import { markerGroup } from './map.js';
 
-const mapFiltersElement = document.querySelector('.map__filters');
-const typeFilter = mapFiltersElement.querySelector('#housing-type');
-const priceFilter = mapFiltersElement.querySelector('#housing-price');
-const roomsFilter = mapFiltersElement.querySelector('#housing-rooms');
-const guestsFilter = mapFiltersElement.querySelector('#housing-guests');
-const featuresFilter = mapFiltersElement.querySelector('#housing-features');
-
 const OFFERS_COUNT = 10;
 const DEFAULT_VALUE = 'any';
 const PRICE_VALUE = {
@@ -15,11 +8,18 @@ const PRICE_VALUE = {
   high: 50000,
 };
 
-const filterType = (data) => typeFilter.value === DEFAULT_VALUE || data.offer.type === typeFilter.value;
-const filterRooms = (data) => roomsFilter.value === DEFAULT_VALUE || data.offer.rooms === Number(roomsFilter.value);
-const filterGuests = (data) => guestsFilter.value === DEFAULT_VALUE || data.offer.guests === Number(guestsFilter.value);
+const mapFiltersElement = document.querySelector('.map__filters');
+const typeFilter = mapFiltersElement.querySelector('#housing-type');
+const priceFilter = mapFiltersElement.querySelector('#housing-price');
+const roomsFilter = mapFiltersElement.querySelector('#housing-rooms');
+const guestsFilter = mapFiltersElement.querySelector('#housing-guests');
+const featuresFilter = mapFiltersElement.querySelector('#housing-features');
 
-const filterPrice = (data) => {
+const filterByType = (data) => typeFilter.value === DEFAULT_VALUE || data.offer.type === typeFilter.value;
+const filterByRooms = (data) => roomsFilter.value === DEFAULT_VALUE || data.offer.rooms === Number(roomsFilter.value);
+const filterByGuests = (data) => guestsFilter.value === DEFAULT_VALUE || data.offer.guests === Number(guestsFilter.value);
+
+const filterByPrice = (data) => {
   if (priceFilter.value === 'low') {
     return data.offer.price < PRICE_VALUE.low;
   }
@@ -34,7 +34,7 @@ const filterPrice = (data) => {
   }
 };
 
-const filterFeatures = (data) => {
+const filterByFeatures = (data) => {
   const checkedFeatures = Array.from(featuresFilter.querySelectorAll('input[type="checkbox"]:checked'));
 
   if(data.offer.features !== undefined) {
@@ -45,23 +45,23 @@ const filterFeatures = (data) => {
 };
 
 
-const getFilterAll = (dataset) => {
+const filterOffers = (dataset) => {
   markerGroup.clearLayers();
 
   return dataset.filter((data) => (
-    filterType(data) &&
-    filterRooms(data) &&
-    filterGuests(data) &&
-    filterPrice(data) &&
-    filterFeatures(data)
+    filterByType(data) &&
+    filterByRooms(data) &&
+    filterByGuests(data) &&
+    filterByPrice(data) &&
+    filterByFeatures(data)
   )).slice(0, OFFERS_COUNT);
 };
 
-const filterChange = (cb) => {
-  mapFiltersElement.addEventListener('change', cb);
+const initFilters = (callback) => {
+  mapFiltersElement.addEventListener('change', callback);
 };
 
 export {
-  getFilterAll,
-  filterChange
+  filterOffers,
+  initFilters
 };
