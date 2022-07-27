@@ -6,15 +6,15 @@ import {
   debounce
 } from './util.js';
 import { disableMapFilters } from './form.js';
-import { similarMarkers } from './map.js';
+import { renderMarkers } from './map.js';
 import { getData } from './api.js';
-import { filterChange } from './filter.js';
+import { initFilters } from './filter.js';
 import './avatar.js';
 
 getData(
-  (data) =>{
-    similarMarkers(data);
-    filterChange(debounce(() => similarMarkers(data)));
+  (offers) =>{
+    renderMarkers(offers);
+    initFilters(debounce(() => renderMarkers(offers)));
   },
   (message) => {
     disableMapFilters();

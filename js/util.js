@@ -1,35 +1,8 @@
-function getRandomFloatPoint (a, b, digits) {
-  const lower = Math.min(Math.abs(a), Math.abs(b));
-  const upper = Math.max(Math.abs(a), Math.abs(b));
+const DEBOUNCE_TIMEOUT_DELAY = 500;
+const HIDE_ERROR_TIMEOUT = 5000;
 
-  const random = Math.random() * (upper - lower) + lower;
-  return +random.toFixed(digits);
-}
-
-function getRandomNumber (a, b) {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-
-  return Math.floor(Math.random() * (upper - lower + 1)) + lower;
-}
-
-function getShuffledArray(selectedArray) {
-  const maxLength = selectedArray.length;
-  const lengthOfArray = getRandomNumber(1, maxLength);
-  const array = [];
-
-  for(let i = 0; i < lengthOfArray; i++) {
-    const indexOfElement = getRandomNumber(0, selectedArray.length - 1);
-    const element = selectedArray[indexOfElement];
-
-    if (!array.includes(element)) {
-      array.push(element);
-    }
-  }
-  return array;
-}
-
-const getRandomArrayElement = (arr) => arr[getRandomNumber(0, arr.length - 1)];
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const showWarning = (message) => {
   const alertContainer = document.createElement('div');
@@ -53,11 +26,8 @@ const showWarning = (message) => {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, 5000);
+  }, HIDE_ERROR_TIMEOUT);
 };
-
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const initSuccess = () => {
   const message = successTemplate.cloneNode(true);
@@ -77,11 +47,10 @@ const initSuccess = () => {
 
 const initError = () => {
   const message = errorTemplate.cloneNode(true);
-  const buttonError = message.querySelector('.error__button');
 
   document.body.append(message);
 
-  buttonError.addEventListener('click', () => {
+  message.querySelector('.error__button').addEventListener('click', () => {
     message.remove();
   });
 
@@ -92,7 +61,7 @@ const initError = () => {
   });
 };
 
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (callback, timeoutDelay = DEBOUNCE_TIMEOUT_DELAY) => {
   let timeoutId;
 
   return (...rest) => {
@@ -102,10 +71,6 @@ const debounce = (callback, timeoutDelay = 500) => {
 };
 
 export {
-  getRandomFloatPoint,
-  getRandomNumber,
-  getShuffledArray,
-  getRandomArrayElement,
   showWarning,
   initSuccess,
   initError,
